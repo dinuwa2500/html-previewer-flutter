@@ -12,34 +12,92 @@
 .swiftpm/
 migrate_working_dir/
 
-# IntelliJ related
+# OS-generated files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+.Spotlight-V100
+.Trashes
+
+# IntelliJ & Android Studio
 *.iml
 *.ipr
 *.iws
 .idea/
+android/.idea/
 
-# The .vscode folder contains launch configuration and tasks you configure in
-# VS Code which you may wish to be included in version control, so this line
-# is commented out by default.
-#.vscode/
+# Kotlin cache
+.kotlin/
+android/.kotlin/
+**/android/.kotlin/
+
+# Visual Studio Code
+.vscode/
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# Visual Studio & Windows Desktop
+windows/flutter/ephemeral/
+*.user
+*.suo
+*.vcxproj.user
+.vs/
+CMakeSettings.json
+windows/runner/Release/
+windows/runner/Debug/
+
+# Linux & macOS Desktop ephemeral
+linux/flutter/ephemeral/
+macos/Flutter/ephemeral/
+
+# Secrets & Environment variables
+.env
+.env.*
+!.env.example
 
 # Flutter/Dart/Pub related
 **/doc/api/
 **/ios/Flutter/.last_build_id
 .dart_tool/
+.flutter-plugins
 .flutter-plugins-dependencies
 .pub-cache/
 .pub/
 /build/
 /coverage/
 
+# Android build artifacts, local configs & signing keys
+/android/app/debug
+/android/app/profile
+/android/app/release
+android/local.properties
+**/android/.gradle/
+**/android/captures/
+**/android/.externalNativeBuild/
+**/android/.cxx/
+key.properties
+*.jks
+*.keystore
+
+# iOS / macOS builds & CocoaPods
+**/ios/Pods/
+**/ios/.symlinks/
+**/ios/Flutter/Generated.xcconfig
+**/ios/Flutter/flutter_export_environment.sh
+**/ios/Flutter/app.framework
+**/ios/Flutter/Flutter.framework
+**/ios/Flutter/Flutter.podspec
+**/ios/DerivedData/
+**/macos/Pods/
+**/macos/.symlinks/
+*.xcuserdata/
+*.xcuserdatad
+
 # Symbolication related
 app.*.symbols
 
 # Obfuscation related
 app.*.map.json
-
-# Android Studio will place build artifacts here
-/android/app/debug
-/android/app/profile
-/android/app/release
