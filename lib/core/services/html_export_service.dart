@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
@@ -13,28 +12,16 @@ class HtmlExportService {
   /// Import an HTML/HTM/TXT file and return its content
   static Future<String?> importHtmlFile() async {
     try {
-      final result = await FilePicker.platform.pickFiles(
+      final files = await FilePicker.pickFiles(
         type: FileType.custom,
         allowedExtensions: ['html', 'htm', 'txt'],
-        withData: true,
       );
 
-      if (result == null || result.files.isEmpty) return null;
+      if (files == null || files.isEmpty) return null;
 
-      final file = result.files.first;
-
-      // Web or in-memory bytes
-      if (file.bytes != null) {
-        return utf8.decode(file.bytes!);
-      }
-
-      // Local file system
-      if (!kIsWeb && file.path != null) {
-        final ioFile = File(file.path!);
-        return await ioFile.readAsString();
-      }
-
-      return null;
+      final file = files.first;
+      final bytes = await file.readAsBytes();
+      return utf8.decode(bytes);
     } catch (e) {
       debugPrint('Error importing file: $e');
       rethrow;
@@ -44,22 +31,22 @@ class HtmlExportService {
   /// Export HTML code to a file as index.html
   static Future<String?> exportHtmlFile(String html) async {
     try {
-      final outputFile = await FilePicker.platform.saveFile(
+      final bytes = Uint8List.fromList(utf8.encode(html));
+      final outputFile = await FilePicker.saveFile(
         dialogTitle: 'Save HTML File',
         fileName: 'index.html',
         type: FileType.custom,
         allowedExtensions: ['html'],
-        bytes: kIsWeb ? Uint8List.fromList(utf8.encode(html)) : null,
+        bytes: bytes,
       );
 
       if (outputFile == null) return null;
 
-      if (!kIsWeb) {
-        final file = File(outputFile);
-        await file.writeAsString(html);
+      try {
+        return outputFile.toFilePath();
+      } catch (_) {
+        return outputFile.path.isNotEmpty ? outputFile.path : outputFile.toString();
       }
-
-      return outputFile;
     } catch (e) {
       debugPrint('Error exporting file: $e');
       rethrow;
