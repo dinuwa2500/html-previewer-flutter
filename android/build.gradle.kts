@@ -20,14 +20,21 @@ subprojects {
 }
 
 subprojects {
-    afterEvaluate {
-        val android = project.extensions.findByName("android")
-        if (android != null) {
-            try {
-                val method = android.javaClass.getMethod("compileSdkVersion", Int::class.javaPrimitiveType)
-                method.invoke(android, 36)
-            } catch (_: Exception) {
+    if (project.name != "app") {
+        val configureCompileSdk = {
+            val android = project.extensions.findByName("android")
+            if (android != null) {
+                try {
+                    val method = android.javaClass.getMethod("compileSdkVersion", Int::class.javaPrimitiveType)
+                    method.invoke(android, 36)
+                } catch (_: Exception) {
+                }
             }
+        }
+        if (project.state.executed) {
+            configureCompileSdk()
+        } else {
+            project.afterEvaluate { configureCompileSdk() }
         }
     }
 }
