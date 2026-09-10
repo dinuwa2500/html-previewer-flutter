@@ -17,7 +17,7 @@ class HtmlExportService {
         allowedExtensions: ['html', 'htm', 'txt'],
       );
 
-      if (files == null || files.isEmpty) return null;
+      if (files.isEmpty) return null;
 
       final file = files.first;
       final bytes = await file.readAsBytes();
